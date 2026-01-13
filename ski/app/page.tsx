@@ -83,16 +83,10 @@ const BanskoExperience: React.FC = () => {
               {/* Icons Group */}
               <div className="flex gap-5 border-r border-white/20 pr-5">
                 
-                {/* 1. Link (Ticket) -> External Link */}
-                <a 
-                  href="https://www.skipoint.info/signin" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"
-                  title="Buy Tickets"
-                >
-                  <Ticket size={20} />
-                </a>
+               {/* 1. Prices (Ticket*/}
+               <button onClick={() => setShowPrices(true)}className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"title="See Prices">
+                 <Ticket size={20} />
+               </button>
 
                 {/* 2. Webcams (Video) */}
                 <button 

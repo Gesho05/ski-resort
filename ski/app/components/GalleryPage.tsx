@@ -2,16 +2,15 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Ticket, Video, CableCar, Calendar, Snowflake, X } from 'lucide-react';
+// 1. Updated Imports: Swapped CableCar->Images, Calendar->Newspaper
+import { Ticket, Video, Images, Newspaper, Snowflake, X } from 'lucide-react';
 
 interface GalleryOverlayProps {
   onClose: () => void;
 }
 
 const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose }) => {
-  // Mock data to replicate the layout in your screenshot
-  // span: "col-span-1 row-span-1" is a small box
-  // span: "col-span-2 row-span-2" is a large box
+  // Mock data
   const photos = [
     { id: 1, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
     { id: 2, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
@@ -56,22 +55,50 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose }) => {
       {/* Close Button */}
       <button 
         onClick={onClose}
-        className="absolute top-8 right-8 z-50 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
+        className="fixed top-8 right-8 z-50 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
       >
         <X size={32} />
       </button>
 
-      {/* Header */}
+      {/* Header (Updated) */}
       <header className="absolute top-0 left-0 z-40 w-full p-8 flex justify-center pointer-events-none">
         <div className="absolute left-12 top-5 text-white">
           <img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" />
         </div>
-        <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl">
+        
+        {/* pointer-events-auto ensures the nav is clickable */}
+        <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl pointer-events-auto">
           <div className="flex gap-5 border-r border-white/20 pr-5">
-            <Ticket size={20} /> <Video size={20} /> <CableCar size={20} /> <Calendar size={20} />
+            
+            {/* 1. Ticket Link */}
+            <a 
+              href="https://www.skipoint.info/signin" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"
+              title="Buy Tickets"
+            >
+              <Ticket size={20} />
+            </a>
+
+            {/* 2. Webcams */}
+            <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+              <Video size={20} /> 
+            </button>
+
+            {/* 3. Gallery (Active) */}
+            <button className="text-blue-300 scale-110 cursor-default">
+              <Images size={20} /> 
+            </button>
+
+            {/* 4. News */}
+            <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+              <Newspaper size={20} /> 
+            </button>
           </div>
+
           <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold">
-            <span>0.7° C</span>
+            <span className="hover:text-blue-300 cursor-pointer">0.7° C</span>
             <div className="w-[1px] h-4 bg-white/30" />
             <span className="flex items-center gap-2"><Snowflake size={18} /> 120 cm</span>
           </div>

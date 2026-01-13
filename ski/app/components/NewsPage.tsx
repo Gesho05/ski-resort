@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Ticket, Video, CableCar, Calendar, Snowflake, X } from 'lucide-react';
+// 1. Updated Imports to match Home
+import { Ticket, Video, Images, Newspaper, Snowflake, X } from 'lucide-react';
 
 interface NewsItem {
   _id: string; 
@@ -61,22 +62,50 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
       {/* Close Button */}
       <button 
         onClick={onClose}
-        className="absolute top-8 right-8 z-50 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
+        className="fixed top-8 right-8 z-50 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
       >
         <X size={32} />
       </button>
 
-      {/* Header */}
+      {/* Header (Updated to match Home) */}
       <header className="absolute top-0 left-0 z-40 w-full p-8 flex justify-center pointer-events-none">
         <div className="absolute left-12 top-5 text-white">
           <img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" />
         </div>
-        <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl">
+        
+        {/* Pointer events auto ensures buttons are clickable even though header is none */}
+        <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl pointer-events-auto">
+          
           <div className="flex gap-5 border-r border-white/20 pr-5">
-            <Ticket size={20} /> <Video size={20} /> <CableCar size={20} /> <Calendar size={20} />
+             {/* 1. Ticket Link */}
+             <a 
+                href="https://www.skipoint.info/signin" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"
+                title="Buy Tickets"
+              >
+                <Ticket size={20} />
+              </a>
+
+              {/* 2. Webcams */}
+              <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+                <Video size={20} /> 
+              </button>
+
+              {/* 3. Gallery */}
+              <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+                <Images size={20} /> 
+              </button>
+
+              {/* 4. News (Active Page) */}
+              <button className="text-blue-300 scale-110 cursor-default">
+                <Newspaper size={20} /> 
+              </button>
           </div>
+
           <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold">
-            <span>0.7° C</span>
+            <span className="hover:text-blue-300 cursor-pointer">0.7° C</span>
             <div className="w-[1px] h-4 bg-white/30" />
             <span className="flex items-center gap-2"><Snowflake size={18} /> 120 cm</span>
           </div>
@@ -96,13 +125,11 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
               No news found.
             </div>
           ) : (
-            // CHANGED: Tighter gap (gap-6 instead of gap-8)
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center mx-auto">
               {newsData.map((item) => (
                 <motion.div 
                   key={item._id}
                   whileHover={{ scale: 1.02 }}
-                  // CHANGED: Reduced height to 360px and max-width to 20rem (approx 320px)
                   className="flex flex-col bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] p-5 text-white h-[380px] w-full max-w-[25rem] justify-between shadow-lg hover:bg-white/15 transition-colors cursor-pointer relative"
                 >
                   {/* Top Section: Logo & Badge */}
@@ -122,7 +149,6 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
 
                   {/* Middle Section: Title & Date */}
                   <div className="flex-1 flex flex-col justify-center mb-2">
-                    {/* CHANGED: Reduced text size to text-lg */}
                     <h3 className="text-lg font-bold leading-snug mb-2 pr-2 line-clamp-3">
                       {item.title}
                     </h3>
@@ -131,7 +157,6 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
 
                   {/* Bottom Section: Image */}
                   <div 
-                    // CHANGED: Reduced height to h-36
                     className="w-full h-36 rounded-[1.2rem] bg-cover bg-center border border-white/10 shadow-inner"
                     style={{ backgroundImage: `url("${item.imageUrl}")` }}
                   />

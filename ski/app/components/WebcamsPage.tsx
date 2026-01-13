@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Ticket, Video, CableCar, Calendar, Snowflake, X, Wind, Droplets, Thermometer } from 'lucide-react';
+// 1. Updated Imports: Swapped CableCar->Images, Calendar->Newspaper
+import { Ticket, Video, Images, Newspaper, Snowflake, X, Wind, Droplets, Thermometer } from 'lucide-react';
 
 interface WebcamOverlayProps {
   onClose: () => void;
@@ -38,7 +39,7 @@ const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose }) => {
 
   const liveTime = getFormattedTime();
 
-  // Mock data - removed the hardcoded 'date' and we will use 'liveTime' in the render
+  // Mock data
   const webcams = [
     { id: 1, name: "Chalin Valog", alt: "1200m", temp: "-2.0°C", wind: "2.0 km/h", hum: "82.0%", img: "/pictures/photo1.png" },
     { id: 2, name: "Shiligarnika", alt: "1725m", temp: "-3.5°C", wind: "5.0 km/h", hum: "78.0%", img: "/pictures/photo2.png" },
@@ -71,17 +72,45 @@ const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose }) => {
         <X size={32} />
       </button>
 
-      {/* Header (Fixed Position) */}
+      {/* Header (Updated) */}
       <header className="fixed top-0 left-0 z-40 w-full p-8 flex justify-center pointer-events-none">
         <div className="absolute left-12 top-5 text-white">
           <img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" />
         </div>
+        
+        {/* pointer-events-auto ensures the nav is clickable */}
         <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl pointer-events-auto">
           <div className="flex gap-5 border-r border-white/20 pr-5">
-            <Ticket size={20} /> <Video size={20} /> <CableCar size={20} /> <Calendar size={20} />
+            
+            {/* 1. Ticket Link */}
+            <a 
+              href="https://www.skipoint.info/signin" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"
+              title="Buy Tickets"
+            >
+              <Ticket size={20} />
+            </a>
+
+            {/* 2. Webcams (Active) */}
+            <button className="text-blue-300 scale-110 cursor-default">
+              <Video size={20} /> 
+            </button>
+
+            {/* 3. Gallery */}
+            <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+              <Images size={20} /> 
+            </button>
+
+            {/* 4. News */}
+            <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+              <Newspaper size={20} /> 
+            </button>
           </div>
+
           <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold">
-            <span>0.7° C</span>
+            <span className="hover:text-blue-300 cursor-pointer">0.7° C</span>
             <div className="w-[1px] h-4 bg-white/30" />
             <span className="flex items-center gap-2"><Snowflake size={18} /> 120 cm</span>
           </div>
