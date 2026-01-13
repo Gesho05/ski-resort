@@ -15,23 +15,23 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose }) => {
   const photos = [
     { id: 1, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
     { id: 2, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
-    { id: 3, span: "col-span-1 row-span-1", img: "/pictures/image 2.jpg" },
+    { id: 3, span: "col-span-1 row-span-1", img: "/pictures/weather.png" },
     { id: 4, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
     { id: 5, span: "col-span-2 row-span-2", img: "/pictures/photo3.png" }, // Large Top Right
     { id: 6, span: "col-span-2 row-span-2", img: "/pictures/photo2.png" }, // Large Row 2 Left
-    { id: 7, span: "col-span-1 row-span-1", img: "/pictures/image 2.jpg" },
+    { id: 7, span: "col-span-1 row-span-1", img: "/pictures/webcams.png" },
     { id: 8, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
     { id: 9, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
     { id: 10, span: "col-span-1 row-span-1", img: "/pictures/photo3.png" },
-    { id: 11, span: "col-span-1 row-span-1", img: "/pictures/image 2.jpg" },
+    { id: 11, span: "col-span-1 row-span-1", img: "/pictures/gallery.png" },
     { id: 12, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
-    { id: 13, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
+    { id: 13, span: "col-span-1 row-span-1", img: "/pictures/webcams.png" },
     { id: 14, span: "col-span-1 row-span-1", img: "/pictures/photo3.png" },
-    { id: 15, span: "col-span-1 row-span-1", img: "/pictures/image 2.jpg" },
+    { id: 15, span: "col-span-1 row-span-1", img: "/pictures/skipass.png" },
     { id: 16, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
-    { id: 17, span: "col-span-2 row-span-2", img: "/pictures/photo2.png" }, // Large Bottom Center
+    { id: 17, span: "col-span-2 row-span-2", img: "/pictures/prices.png" }, // Large Bottom Center
     { id: 18, span: "col-span-1 row-span-1", img: "/pictures/photo3.png" },
-    { id: 19, span: "col-span-1 row-span-1", img: "/pictures/image 2.jpg" },
+    { id: 19, span: "col-span-1 row-span-1", img: "/pictures/news.png" },
     { id: 20, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
     { id: 21, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
   ];

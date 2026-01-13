@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Ticket, Video, CableCar, Calendar, Snowflake, X } from 'lucide-react';
 
-// Define the structure of a News Item (matches your DB schema)
 interface NewsItem {
   _id: string; 
   title: string;
@@ -21,7 +20,6 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // FETCH DATA FROM THE DATABASE
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -86,8 +84,8 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
       </header>
 
       {/* News Grid Content */}
-      <div className="relative z-10 w-full h-full overflow-y-auto no-scrollbar pt-32 pb-10 px-4">
-        <div className="max-w-[90rem] mx-auto">
+      <div className="relative z-10 w-full h-full overflow-y-auto no-scrollbar pt-32 pb-10 px-4 flex justify-center">
+        <div className="max-w-6xl w-full">
           
           {loading ? (
             <div className="text-white text-center text-xl mt-20 opacity-80 animate-pulse">
@@ -98,42 +96,43 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
               No news found.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            // CHANGED: Tighter gap (gap-6 instead of gap-8)
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center mx-auto">
               {newsData.map((item) => (
                 <motion.div 
                   key={item._id}
                   whileHover={{ scale: 1.02 }}
-                  // CHANGED: Increased height to h-[500px] to stretch downwards
-                  className="flex flex-col bg-white/10 backdrop-blur-md border border-white/20 rounded-[2.5rem] p-6 text-white h-[500px] justify-between shadow-lg hover:bg-white/15 transition-colors cursor-pointer relative"
+                  // CHANGED: Reduced height to 360px and max-width to 20rem (approx 320px)
+                  className="flex flex-col bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] p-5 text-white h-[380px] w-full max-w-[25rem] justify-between shadow-lg hover:bg-white/15 transition-colors cursor-pointer relative"
                 >
                   {/* Top Section: Logo & Badge */}
                   <div className="flex justify-between items-start mb-2">
-                    {/* CHANGED: Removed circular frame, just the raw image */}
-                    <div className="w-16 h-16 relative">
-                       <img 
-                         src="/pictures/miniLogo.png" 
-                         alt="Bansko Icon" 
-                         className="w-full h-full object-contain" 
-                       />
+                    <div className="w-12 h-12 relative">
+                        <img 
+                          src="/pictures/miniLogo.png" 
+                          alt="Bansko Icon" 
+                          className="w-full h-full object-contain" 
+                        />
                     </div>
                     
-                    <span className="px-4 py-1.5 rounded-full border border-white/30 text-xs uppercase font-bold tracking-wider bg-white/10 backdrop-blur-sm">
+                    <span className="px-3 py-1 rounded-full border border-white/30 text-[10px] uppercase font-bold tracking-wider bg-white/10 backdrop-blur-sm">
                       {item.category}
                     </span>
                   </div>
 
                   {/* Middle Section: Title & Date */}
-                  <div className="flex-1 flex flex-col justify-center mb-4">
-                    <h3 className="text-2xl font-bold leading-tight mb-4 pr-4">
+                  <div className="flex-1 flex flex-col justify-center mb-2">
+                    {/* CHANGED: Reduced text size to text-lg */}
+                    <h3 className="text-lg font-bold leading-snug mb-2 pr-2 line-clamp-3">
                       {item.title}
                     </h3>
-                    <p className="text-sm font-semibold opacity-90">{item.date}</p>
+                    <p className="text-[11px] font-semibold opacity-80">{item.date}</p>
                   </div>
 
                   {/* Bottom Section: Image */}
-                  {/* CHANGED: Taller height (h-52) and added horizontal margin (mx-1) to make it "smaller to the side" */}
                   <div 
-                    className="w-full h-52 rounded-[1.5rem] bg-cover bg-center border border-white/10 shadow-inner"
+                    // CHANGED: Reduced height to h-36
+                    className="w-full h-36 rounded-[1.2rem] bg-cover bg-center border border-white/10 shadow-inner"
                     style={{ backgroundImage: `url("${item.imageUrl}")` }}
                   />
                 </motion.div>
