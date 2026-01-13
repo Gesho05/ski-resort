@@ -3,11 +3,18 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Ticket, Video, CableCar, Calendar, Snowflake, Instagram, Youtube, Facebook, Camera } from 'lucide-react';
-// IMPORT THE NEW COMPONENT
+
+// IMPORT COMPONENTS
 import WeatherOverlay from './components/WeatherPage'; 
+import PricesOverlay from './components/PricesPage'; 
+import GalleryOverlay from './components/GalleryPage'; // Imported Gallery Page
+import NewsOverlay from './components/NewsPage'; // NEW IMPORT
 
 const BanskoExperience: React.FC = () => {
   const [showWeather, setShowWeather] = useState(false);
+  const [showPrices, setShowPrices] = useState(false);
+  const [showGallery, setShowGallery] = useState(false); // NEW STATE FOR GALLERY
+  const [showNews, setShowNews] = useState(false); // NEW STATE FOR NEWS
 
   const containerRef = React.useRef<HTMLDivElement>(null);
   const section1Ref = React.useRef<HTMLDivElement>(null);
@@ -36,6 +43,9 @@ const BanskoExperience: React.FC = () => {
     <>
       <AnimatePresence>
         {showWeather && <WeatherOverlay onClose={() => setShowWeather(false)} />}
+        {showPrices && <PricesOverlay onClose={() => setShowPrices(false)} />}
+        {showGallery && <GalleryOverlay onClose={() => setShowGallery(false)} />} {/* RENDER GALLERY */}
+        {showNews && <NewsOverlay onClose={() => setShowNews(false)} />} {/* RENDER NEWS */}
       </AnimatePresence>
 
       <div 
@@ -96,12 +106,8 @@ const BanskoExperience: React.FC = () => {
               <div className="w-[50%] h-full rounded-3xl bg-cover bg-center shadow-inner" style={{backgroundImage: 'url("https://banskoski.com/uploads/slider/Slider-8-TEST5.jpg")'}} />
             </motion.div>
 
-            {/* WEATHER - CLICK TO OPEN OVERLAY */}
-            <motion.div 
-              whileHover={popOut} 
-              onClick={() => setShowWeather(true)} // Opens the overlay
-              className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] p-3 flex gap-4 items-center text-white cursor-pointer"
-            >
+            {/* WEATHER */}
+            <motion.div whileHover={popOut} onClick={() => setShowWeather(true)} className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] p-3 flex gap-4 items-center text-white cursor-pointer">
                <div className="w-[50%] h-full rounded-3xl bg-cover bg-center shadow-inner" style={{backgroundImage: 'url("https://banskoski.com/uploads/slider/Slider-8-TEST5.jpg")'}} />
                <div className="flex flex-col justify-center items-center w-[50%] h-full bg-white/10 rounded-3xl p-2">
                  <span className="text-lg font-bold uppercase tracking-wider mb-1 text-[#f0f0f0]">Weather</span>
@@ -114,7 +120,11 @@ const BanskoExperience: React.FC = () => {
             </motion.div>
 
             {/* NEWS */}
-            <motion.div whileHover={popOut} className="col-span-2 row-span-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] p-5 text-white flex flex-col relative overflow-hidden">
+            <motion.div 
+              whileHover={popOut} 
+              onClick={() => setShowNews(true)} // CONNECTED HERE
+              className="col-span-2 row-span-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] p-5 text-white flex flex-col relative overflow-hidden cursor-pointer"
+            >
               <span className="text-lg font-bold uppercase tracking-widest mb-3">News</span>
               <div className="w-full h-[60%] rounded-2xl bg-cover bg-center mb-3 border border-white/10 shadow-lg" style={{backgroundImage: 'url("/pictures/photo1.png")'}} />
               <div className="flex flex-col items-center text-center mt-1">
@@ -129,8 +139,12 @@ const BanskoExperience: React.FC = () => {
               <div className="absolute bottom-4 right-8 text-[#135285] text-lg font-black tracking-tighter uppercase py-1 rounded-lg">Ski Map</div>
             </motion.div>
 
-            {/* GALLERY */}
-            <motion.div whileHover={popOut} className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] relative overflow-hidden cursor-pointer p-2">
+            {/* GALLERY - CLICK TO OPEN GALLERY */}
+            <motion.div 
+              whileHover={popOut} 
+              onClick={() => setShowGallery(true)} // CONNECTED HERE
+              className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] relative overflow-hidden cursor-pointer p-2"
+            >
               <div className="w-full h-full rounded-3xl bg-cover bg-center opacity-80 hover:opacity-100 transition-opacity" style={{backgroundImage: 'url("/pictures/photo2.png")'}} />
               <span className="absolute top-4 left-6 text-[#135285] text-lg font-black tracking-tighter uppercase py-1 rounded-lg">Gallery</span>
             </motion.div>
@@ -147,55 +161,55 @@ const BanskoExperience: React.FC = () => {
             </motion.div>
 
             {/* PRICES */}
-            <motion.div whileHover={popOut} className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] relative overflow-hidden cursor-pointer p-2">
+            <motion.div whileHover={popOut} onClick={() => setShowPrices(true)} className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] relative overflow-hidden cursor-pointer p-2">
               <div className="w-full h-full rounded-3xl bg-cover bg-center opacity-80" style={{backgroundImage: 'url("/pictures/photo2.png")'}} />
               <span className="absolute top-4 left-6 text-[#135285] text-lg font-black tracking-tighter uppercase py-1 rounded-lg">Prices</span>
             </motion.div>
           </motion.div>
         </section>
 
-         {/* --- SECTION 3: FOOTER --- */}
-      <section ref={section3Ref} className="relative z-5   h-screen w-full flex flex-col items-center justify-center px-6 pt-10 overflow-hidden snap-start snap-always">
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full">
-          <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo3.png")', scale: bgScale3, y: parallaxY3 }} />
-          <div className="absolute inset-0 bg-[#1e3a5f]/60 backdrop-blur-[2px] z-10" />
-        </div>
-        <motion.h2 initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="text-white text-5xl md:text-[100px] font-black uppercase tracking-tighter leading-none mb-10 relative z-20">
-          YOUR MOUNTAIN HOME
-        </motion.h2>
-        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-12 gap-8 mb-16 items-end relative z-20 md:ml-auto">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="md:col-span-5 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] p-10 text-white shadow-2xl">
-                <h3 className="text-xl font-bold mb-8 uppercase tracking-widest">Discover Bansko</h3>
-                <div className="grid grid-cols-2 gap-y-6 text-base">
-                    {['Webcams', 'Gallery', 'Weather', 'News', 'Ski Pass', 'Ski Map', 'Summer Offers', 'Prices'].map(l => (<div key={l} className="border-b border-white/20 pb-1 cursor-pointer hover:text-white/60 transition-colors">{l}</div>))}
-                </div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="md:col-span-4 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] p-10 text-white shadow-2xl">
-                <h3 className="text-sm font-bold mb-8 opacity-40 uppercase tracking-widest">Awarded</h3>
-                <div className="grid grid-cols-2 gap-5 items-center max-w-md">
-                    <img src="/pictures/award1.png" alt="A1" className="h-22 w-22 object-contain" />
-                    <img src="/pictures/award2.png" alt="A2" className="h-22 w-22 object-contain" />
-                    <img src="/pictures/award3.png" alt="A3" className="h-22 w-22 object-contain" />
-                    <img src="/pictures/award4.jpg" alt="A4" className="h-22 w-22 object-contain" />
-                </div>
-            </motion.div>
-        </div>
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="w-full max-w-7xl flex flex-row justify-between items-center px-4 gap-6 relative z-20">
-          <div className="flex flex-col items-start min-w-fit">
-            <div className="flex flex-row items-end gap-2"><img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" /></div>
-            <p className="text-white/30 text-[9px] mt-1 tracking-widest uppercase">© 2010 - 2025 Bansko</p>
+        {/* --- SECTION 3 --- */}
+        <section ref={section3Ref} className="relative z-5 h-screen w-full flex flex-col items-center justify-center px-6 pt-10 overflow-hidden snap-start snap-always">
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full">
+            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo3.png")', scale: bgScale3, y: parallaxY3 }} />
+            <div className="absolute inset-0 bg-[#1e3a5f]/60 backdrop-blur-[2px] z-10" />
           </div>
-          <div className="flex flex-row gap-4 text-white/50 border-x border-white/10 px-8 h-10 items-center">
-              <Instagram size={20} className="hover:text-white transition-colors cursor-pointer" />
-              <Youtube size={20} className="hover:text-white transition-colors cursor-pointer" />
-              <Facebook size={20} className="hover:text-white transition-colors cursor-pointer" />
+          <motion.h2 initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="text-white text-5xl md:text-[100px] font-black uppercase tracking-tighter leading-none mb-10 relative z-20">
+            YOUR MOUNTAIN HOME
+          </motion.h2>
+          <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-12 gap-8 mb-16 items-end relative z-20 md:ml-auto">
+              <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="md:col-span-5 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] p-10 text-white shadow-2xl">
+                  <h3 className="text-xl font-bold mb-8 uppercase tracking-widest">Discover Bansko</h3>
+                  <div className="grid grid-cols-2 gap-y-6 text-base">
+                      {['Webcams', 'Gallery', 'Weather', 'News', 'Ski Pass', 'Ski Map', 'Summer Offers', 'Prices'].map(l => (<div key={l} className="border-b border-white/20 pb-1 cursor-pointer hover:text-white/60 transition-colors">{l}</div>))}
+                  </div>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="md:col-span-4 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] p-10 text-white shadow-2xl">
+                  <h3 className="text-sm font-bold mb-8 opacity-40 uppercase tracking-widest">Awarded</h3>
+                  <div className="grid grid-cols-2 gap-5 items-center max-w-md">
+                      <img src="/pictures/award1.png" alt="A1" className="h-22 w-22 object-contain" />
+                      <img src="/pictures/award2.png" alt="A2" className="h-22 w-22 object-contain" />
+                      <img src="/pictures/award3.png" alt="A3" className="h-22 w-22 object-contain" />
+                      <img src="/pictures/award4.jpg" alt="A4" className="h-22 w-22 object-contain" />
+                  </div>
+              </motion.div>
           </div>
-          <div className="flex flex-row gap-3">
-              <button className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-white text-[10px] font-bold hover:bg-white/10 flex items-center gap-2 whitespace-nowrap">GET IT ON <span className="text-sm">Google Play</span></button>
-              <button className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-white text-[10px] font-bold hover:bg-white/10 flex items-center gap-2 whitespace-nowrap">DOWNLOAD ON <span className="text-sm">App Store</span></button>
-          </div>
-        </motion.div>
-      </section>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="w-full max-w-7xl flex flex-row justify-between items-center px-4 gap-6 relative z-20">
+            <div className="flex flex-col items-start min-w-fit">
+              <div className="flex flex-row items-end gap-2"><img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" /></div>
+              <p className="text-white/30 text-[9px] mt-1 tracking-widest uppercase">© 2010 - 2025 Bansko</p>
+            </div>
+            <div className="flex flex-row gap-4 text-white/50 border-x border-white/10 px-8 h-10 items-center">
+                <Instagram size={20} className="hover:text-white transition-colors cursor-pointer" />
+                <Youtube size={20} className="hover:text-white transition-colors cursor-pointer" />
+                <Facebook size={20} className="hover:text-white transition-colors cursor-pointer" />
+            </div>
+            <div className="flex flex-row gap-3">
+                <button className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-white text-[10px] font-bold hover:bg-white/10 flex items-center gap-2 whitespace-nowrap">GET IT ON <span className="text-sm">Google Play</span></button>
+                <button className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-white text-[10px] font-bold hover:bg-white/10 flex items-center gap-2 whitespace-nowrap">DOWNLOAD ON <span className="text-sm">App Store</span></button>
+            </div>
+          </motion.div>
+        </section>
       </div>
     </>
   );
