@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-// 1. Updated Imports to match Home
+import { motion, Variants } from 'framer-motion';
+// 1. Updated Imports
 import { Ticket, Video, Images, Newspaper, Snowflake, X } from 'lucide-react';
 
 interface NewsItem {
@@ -15,9 +15,12 @@ interface NewsItem {
 
 interface NewsOverlayProps {
   onClose: () => void;
+  // 2. Added navigation props
+  onNavigate: (page: string) => void;
+  variants: Variants;
 }
 
-const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
+const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose, onNavigate, variants }) => {
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -44,11 +47,13 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
 
   return (
     <motion.div
-      initial={{ y: "-100%" }}
-      animate={{ y: 0 }}
-      exit={{ y: "-100%" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 z-[100] w-full h-full bg-[#1e3a5f] overflow-hidden"
+      // 3. Use passed variants
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      // Added select-none
+      className="fixed inset-0 z-[100] w-full h-full bg-[#1e3a5f] overflow-hidden select-none"
     >
       {/* --- Background --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -67,34 +72,28 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
         <X size={32} />
       </button>
 
-      {/* Header (Updated to match Home) */}
+      {/* Header (Updated) */}
       <header className="absolute top-0 left-0 z-40 w-full p-8 flex justify-center pointer-events-none">
         <div className="absolute left-12 top-5 text-white">
           <img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" />
         </div>
         
-        {/* Pointer events auto ensures buttons are clickable even though header is none */}
+        {/* Pointer events auto ensures buttons are clickable */}
         <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl pointer-events-auto">
           
           <div className="flex gap-5 border-r border-white/20 pr-5">
-             {/* 1. Ticket Link */}
-             <a 
-                href="https://www.skipoint.info/signin" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"
-                title="Buy Tickets"
-              >
-                <Ticket size={20} />
-              </a>
+             {/* 1. Prices */}
+             <button onClick={() => onNavigate('Prices')} className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+               <Ticket size={20} />
+             </button>
 
               {/* 2. Webcams */}
-              <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+              <button onClick={() => onNavigate('Webcams')} className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
                 <Video size={20} /> 
               </button>
 
               {/* 3. Gallery */}
-              <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+              <button onClick={() => onNavigate('Gallery')} className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
                 <Images size={20} /> 
               </button>
 
@@ -105,7 +104,10 @@ const NewsOverlay: React.FC<NewsOverlayProps> = ({ onClose }) => {
           </div>
 
           <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold">
-            <span className="hover:text-blue-300 cursor-pointer">0.7° C</span>
+            {/* 5. Weather */}
+            <button onClick={() => onNavigate('Weather')} className="hover:text-blue-300 hover:scale-105 transition-all cursor-pointer">
+                0.7° C
+            </button>
             <div className="w-[1px] h-4 bg-white/30" />
             <span className="flex items-center gap-2"><Snowflake size={18} /> 120 cm</span>
           </div>

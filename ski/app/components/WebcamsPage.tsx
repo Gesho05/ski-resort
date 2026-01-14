@@ -1,15 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-// 1. Updated Imports: Swapped CableCar->Images, Calendar->Newspaper
+import { motion, Variants } from 'framer-motion';
+// 1. Updated Imports
 import { Ticket, Video, Images, Newspaper, Snowflake, X, Wind, Droplets, Thermometer } from 'lucide-react';
 
 interface WebcamOverlayProps {
   onClose: () => void;
+  // 2. Added navigation props
+  onNavigate: (page: string) => void;
+  variants: Variants;
 }
 
-const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose }) => {
+const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose, onNavigate, variants }) => {
   // 1. State for the current time
   const [currentDate, setCurrentDate] = useState<Date | null>(null);
 
@@ -49,11 +52,13 @@ const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose }) => {
 
   return (
     <motion.div
-      initial={{ y: "-100%" }}
-      animate={{ y: 0 }}
-      exit={{ y: "-100%" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 z-[100] w-full h-full bg-[#1e3a5f] overflow-y-auto no-scrollbar"
+      // 3. Use passed variants
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      // Added select-none
+      className="fixed inset-0 z-[100] w-full h-full bg-[#1e3a5f] overflow-y-auto no-scrollbar select-none"
     >
       {/* --- Background --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -82,16 +87,10 @@ const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose }) => {
         <nav className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-2xl border border-white/30 rounded-full text-white shadow-2xl pointer-events-auto">
           <div className="flex gap-5 border-r border-white/20 pr-5">
             
-            {/* 1. Ticket Link */}
-            <a 
-              href="https://www.skipoint.info/signin" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer"
-              title="Buy Tickets"
-            >
+            {/* 1. Prices */}
+            <button onClick={() => onNavigate('Prices')} className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
               <Ticket size={20} />
-            </a>
+            </button>
 
             {/* 2. Webcams (Active) */}
             <button className="text-blue-300 scale-110 cursor-default">
@@ -99,18 +98,21 @@ const WebcamOverlay: React.FC<WebcamOverlayProps> = ({ onClose }) => {
             </button>
 
             {/* 3. Gallery */}
-            <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+            <button onClick={() => onNavigate('Gallery')} className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
               <Images size={20} /> 
             </button>
 
             {/* 4. News */}
-            <button className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
+            <button onClick={() => onNavigate('News')} className="hover:text-blue-300 hover:scale-110 transition-all cursor-pointer">
               <Newspaper size={20} /> 
             </button>
           </div>
 
           <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold">
-            <span className="hover:text-blue-300 cursor-pointer">0.7° C</span>
+            {/* 5. Weather */}
+            <button onClick={() => onNavigate('Weather')} className="hover:text-blue-300 hover:scale-105 transition-all cursor-pointer">
+                0.7° C
+            </button>
             <div className="w-[1px] h-4 bg-white/30" />
             <span className="flex items-center gap-2"><Snowflake size={18} /> 120 cm</span>
           </div>
