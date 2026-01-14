@@ -11,5 +11,5 @@ export const newsData = [
     category: "Events",
     imageUrl: "/pictures/photo1.png"
   },
-  // ... Add as many items as you want here
+
 ];

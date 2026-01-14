@@ -16,15 +16,15 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
     { id: 1, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
     { id: 2, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
     { id: 3, span: "col-span-1 row-span-1", img: "/pictures/weather.png" },
-    { id: 4, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
+    { id: 4, span: "col-span-1 row-span-1", img: "/pictures/photo3.jpg" },
     { id: 5, span: "col-span-2 row-span-2", img: "/pictures/photo3.png" },
-    { id: 6, span: "col-span-2 row-span-2", img: "/pictures/photo2.png" },
+    { id: 6, span: "col-span-2 row-span-2", img: "/pictures/photo4.jpg" },
     { id: 7, span: "col-span-1 row-span-1", img: "/pictures/webcams.png" },
-    { id: 8, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
-    { id: 9, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
-    { id: 10, span: "col-span-1 row-span-1", img: "/pictures/photo3.png" },
+    { id: 8, span: "col-span-1 row-span-1", img: "/pictures/photo5.jpg" },
+    { id: 9, span: "col-span-1 row-span-1", img: "/pictures/photo6.jpg" },
+    { id: 10, span: "col-span-1 row-span-1", img: "/pictures/photo7.jpg" },
     { id: 11, span: "col-span-1 row-span-1", img: "/pictures/gallery.png" },
-    { id: 12, span: "col-span-1 row-span-1", img: "/pictures/photo1.png" },
+    { id: 12, span: "col-span-1 row-span-1", img: "/pictures/photo1news.jpg" },
     { id: 13, span: "col-span-1 row-span-1", img: "/pictures/webcams.png" },
     { id: 14, span: "col-span-1 row-span-1", img: "/pictures/photo3.png" },
     { id: 15, span: "col-span-1 row-span-1", img: "/pictures/skipass.png" },
@@ -36,7 +36,7 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
     { id: 21, span: "col-span-1 row-span-1", img: "/pictures/photo2.png" },
   ];
 
-  // --- LIGHTBOX LOGIC ---
+  // --- lightbox---
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const currentIndex = photos.findIndex((p) => p.id === selectedId);
@@ -58,7 +58,6 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
     }
   }, [currentIndex, photos]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedId) return;
@@ -149,7 +148,7 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
         </div>
       </div>
 
-      {/* --- LIGHTBOX OVERLAY --- */}
+      {/* --- lightbox--- */}
       <AnimatePresence>
         {selectedId && currentPhoto && (
           <motion.div
@@ -157,7 +156,6 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-10"
-            // CLICKING HERE (The Background) CLOSES THE MODAL
             onClick={() => setSelectedId(null)}
           >
             {/* Close Button */}
@@ -176,7 +174,7 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
               <ChevronLeft size={40} />
             </button>
 
-            {/* Main Image Container */}
+            {/* Image */}
             <motion.div 
               layoutId={`photo-${selectedId}`}
               className="relative w-full max-w-5xl max-h-[85vh] aspect-[16/9] md:aspect-auto flex items-center justify-center"
@@ -190,7 +188,6 @@ const GalleryOverlay: React.FC<GalleryOverlayProps> = ({ onClose, onNavigate, va
                  animate={{ opacity: 1, scale: 1 }}
                  transition={{ duration: 0.3 }}
                  className="w-full h-full object-contain rounded-xl shadow-2xl drop-shadow-2xl"
-                 // ADDED stopPropagation here so clicking the ACTUAL IMAGE does NOT close it
                  onClick={(e) => e.stopPropagation()}
                />
             </motion.div>

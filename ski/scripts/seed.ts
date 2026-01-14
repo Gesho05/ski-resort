@@ -32,11 +32,9 @@ async function seedDatabase() {
     await mongoose.connect(MONGODB_URI!); 
     console.log('✅ Connected!');
 
-    // Clear old data to avoid duplicates
     console.log('🧹 Clearing old data...');
     await News.deleteMany({});
 
-    // Insert new data
     console.log('📦 Inserting new data...');
     await News.insertMany(newsData);
 
