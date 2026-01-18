@@ -34,7 +34,7 @@ const BanskoExperience: React.FC = () => {
 
   const popOut = {
     scale: 1.03,
-    transition: { type: "spring", stiffness: 400, damping: 17 },
+    transition: { type: "spring" as const, stiffness: 400, damping: 17 },
     zIndex: 50,
     boxShadow: "0px 10px 30px rgba(0,0,0,0.3)"
   };
