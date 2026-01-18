@@ -14,7 +14,6 @@ import WebcamOverlay from './components/WebcamsPage';
 const BanskoExperience: React.FC = () => {
   // SINGLE STATE for active page (Cleaner logic)
   const [activePage, setActivePage] = useState<string | null>(null);
-  // Track if we are switching between pages to change animation style
   const [isSwitching, setIsSwitching] = useState(false);
 
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -42,10 +41,15 @@ const BanskoExperience: React.FC = () => {
 
   // --- NAVIGATION LOGIC ---
   const handleNavigation = (newPage: string) => {
+    if (newPage === 'Ski Pass') {
+       window.open('https://www.skipoint.info/signin', '_blank');
+       return;
+    }
+
     if (activePage && activePage !== newPage) {
-      setIsSwitching(true); // We are switching Page -> Page
+      setIsSwitching(true);
     } else {
-      setIsSwitching(false); // We are opening Home -> Page
+      setIsSwitching(false);
     }
     setActivePage(newPage);
   };
@@ -96,16 +100,17 @@ const BanskoExperience: React.FC = () => {
       <div 
         ref={containerRef}
         className="relative h-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory scroll-smooth bg-[#1e3a5f] no-scrollbar select-none"
+        suppressHydrationWarning
       >
         {/* --- SECTION 1 --- */}
         <section ref={section1Ref} className="relative z-10 h-screen w-full flex flex-col items-center justify-center px-4 overflow-hidden snap-start snap-always">
-          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full">
-            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo1.png")', scale: bgScale1, y: parallaxY1 }} />
-            <div className="absolute inset-0 bg-black/5 z-20" />
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full" suppressHydrationWarning>
+            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo1.png")', scale: bgScale1, y: parallaxY1 }} suppressHydrationWarning />
+            <div className="absolute inset-0 bg-black/5 z-20" suppressHydrationWarning />
           </div>
           
-          <header className="absolute top-0 left-0 z-50 w-full p-8 flex justify-center">
-            <div className="absolute left-12 top-5 text-white flex flex-col items-start">
+          <header className="absolute top-0 left-0 z-50 w-full p-8 flex justify-center" suppressHydrationWarning>
+            <div className="absolute left-12 top-5 text-white flex flex-col items-start" suppressHydrationWarning>
               <img src="./pictures/Logo.png" alt="Bansko Logo" className="h-16 w-auto" />
             </div>
             
@@ -124,11 +129,11 @@ const BanskoExperience: React.FC = () => {
                   <Newspaper size={20} /> 
                 </button>
               </div>
-              <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold">
+              <div className="flex gap-4 pl-3 items-center text-[15px] font-semibold" suppressHydrationWarning>
                 <button onClick={() => handleNavigation('Weather')} className="hover:text-blue-300 hover:scale-105 transition-all cursor-pointer">
                   0.7° C
                 </button>
-                <div className="w-[1px] h-4 bg-white/30" />
+                <div className="w-[1px] h-4 bg-white/30" suppressHydrationWarning />
                 <span className="flex items-center gap-2 cursor-default opacity-90">
                   <Snowflake size={18} /> 120 cm
                 </span>
@@ -147,9 +152,9 @@ const BanskoExperience: React.FC = () => {
 
         {/* --- SECTION 2 --- */}
         <section ref={section2Ref} className="relative z-10 h-screen w-full flex items-center justify-center p-8 overflow-hidden snap-start snap-always">
-          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full">
-            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo2.png")', scale: bgScale2, y: parallaxY2 }} />
-            <div className="absolute inset-0 bg-black/5 z-20" />
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full" suppressHydrationWarning>
+            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo2.png")', scale: bgScale2, y: parallaxY2 }} suppressHydrationWarning />
+            <div className="absolute inset-0 bg-black/5 z-20" suppressHydrationWarning />
           </div>
 
           <motion.div className="grid grid-cols-6 grid-rows-3 gap-5 max-w-7xl w-full h-[85vh] relative z-10 text-[#f0f0f0]" initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
@@ -199,8 +204,14 @@ const BanskoExperience: React.FC = () => {
               <span className="absolute top-4 left-6 text-[#135285] text-lg font-black tracking-tighter uppercase py-1 rounded-lg">Gallery</span>
             </motion.div>
 
-            {/* SKI PASS */}
-            <motion.div whileHover={popOut} className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] p-2 text-white flex gap-2 items-center justify-between">
+            {/* SKI PASS - NOW A LINK */}
+            <motion.a 
+              href="https://www.skipoint.info/signin"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={popOut} 
+              className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] p-2 text-white flex gap-2 items-center justify-between cursor-pointer"
+            >
               <div className="flex flex-col justify-center items-center w-[40%] h-full bg-white/10 rounded-3xl py-2">
                   <span className="text-lg font-bold uppercase mb-1">Ski Pass</span>
                   <div className="text-[12px] mb-1">Currently</div>
@@ -208,7 +219,7 @@ const BanskoExperience: React.FC = () => {
                   <span className="text-[9px] font-bold uppercase tracking-widest">Inactive</span>
               </div>
               <div className="w-[60%] h-full rounded-3xl bg-cover bg-center border border-white/10" style={{backgroundImage: 'url("/pictures/skipass.png")'}} />
-            </motion.div>
+            </motion.a>
 
             {/* PRICES */}
             <motion.div whileHover={popOut} onClick={() => handleNavigation('Prices')} className="col-span-2 row-span-1 bg-white/20 backdrop-blur-xl border border-white/30 rounded-[2rem] relative overflow-hidden cursor-pointer p-2">
@@ -220,9 +231,9 @@ const BanskoExperience: React.FC = () => {
 
         {/* --- SECTION 3 (FOOTER) --- */}
         <section ref={section3Ref} className="relative z-5 h-screen w-full flex flex-col items-center justify-center px-6 pt-10 overflow-hidden snap-start snap-always">
-          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full">
-            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo3.png")', scale: bgScale3, y: parallaxY3 }} />
-            <div className="absolute inset-0 bg-[#1e3a5f]/60 backdrop-blur-[2px] z-10" />
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden w-full h-full" suppressHydrationWarning>
+            <motion.div className="absolute inset-0 bg-cover bg-center w-full h-full" style={{ backgroundImage: 'url("/pictures/photo3.png")', scale: bgScale3, y: parallaxY3 }} suppressHydrationWarning />
+            <div className="absolute inset-0 bg-[#1e3a5f]/60 backdrop-blur-[2px] z-10" suppressHydrationWarning />
           </div>
           <motion.h2 initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="text-white text-5xl md:text-[100px] font-black uppercase tracking-tighter leading-none mb-10 relative z-20">
             YOUR MOUNTAIN HOME

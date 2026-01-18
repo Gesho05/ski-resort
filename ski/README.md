@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+**Overview**
+- **Purpose:** Ski resort landing page with parallax sections, interactive bento grid, and overlays for weather, prices, gallery, and news.
+- **Framework:** Next.js 16 + React 19 + TypeScript
+- **Styling:** Tailwind CSS v4
+- **Animation:** Framer Motion
+- **Icons:** lucide-react
 
-## Getting Started
+**Features**
+- **Three Parallax Sections:** Independent parallax backgrounds (photo1 → photo2 → photo1) with scroll snap between sections.
+- **Interactive Overlays:** `WeatherOverlay`, `PricesOverlay`, `GalleryOverlay`, `NewsOverlay` shown via `AnimatePresence` and local state.
+- **News API + DB:** MongoDB-backed `News` model, `/api/news` route, and a seed script.
+- **Assets:** Images served from `public/pictures` (e.g., `photo1.png`, `photo2.png`, `miniLogo.png`).
 
-First, run the development server:
+**Tech Stack**
+- **Runtime:** `next@16.1.1`, `react@19.2.3`
+- **UI/FX:** `tailwindcss@^4`, `framer-motion@^12`
+- **Icons:** `lucide-react`
+- **DB:** `mongoose@^9` (MongoDB connection via `MONGODB_URI`)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Getting Started**
+- **Prerequisites:** Node.js 18+ and a MongoDB connection string.
+- **Install dependencies:**
+	- In `cmd.exe` run: `npm install`
+- **Start dev server:**
+	- In `cmd.exe` run: `npm run dev`
+	- Open `http://localhost:3000`
+- If using PowerShell and you hit execution policy issues, switch to `cmd.exe` for running npm commands.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Environment & Database**
+- Create `ski/.env.local` with:
+	- `MONGODB_URI="your-mongodb-connection-string"`
+- Connection is initialized in `lib/db.ts`. The API route `app/api/news/route.ts` reads/writes via Mongoose.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Seed Data**
+- Seeds are defined in `data/seed-data.ts` and the `News` schema in `models/News.ts`.
+- To seed the DB (from the `ski` folder):
+	- `npx tsx scripts/seed.ts`
+	- Ensure `.env.local` exists and `MONGODB_URI` is valid.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Available Scripts**
+- `npm run dev`: Start Next.js dev server.
+- `npm run build`: Build for production.
+- `npm run start`: Start the production server.
+- `npm run lint`: Run ESLint.
 
-## Learn More
+**API Endpoints**
+- `GET /api/news`: Returns `{ success: true, data: News[] }` sorted by `createdAt` descending.
 
-To learn more about Next.js, take a look at the following resources:
+**Assets**
+- Place images in `public/pictures/` and reference with `/pictures/<name>`. Example: `/pictures/photo1.png`.
+- Favicon/logo uses `/pictures/miniLogo.png` configured in `app/layout.tsx` metadata.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Troubleshooting**
+- **Hydration warnings in dev:** Some browser extensions inject attributes causing mismatch warnings. This project reduces noise via `reactStrictMode: false` in `next.config.ts` and selective `suppressHydrationWarning` on key containers.
+	- For stricter checks in production, you can re-enable `reactStrictMode` after verifying extensions are disabled.
+- **Image paths:** Use absolute public paths like `/pictures/photo1.png`; avoid relative paths inside `app/`.
+- **Windows shell issues:** If PowerShell policy blocks scripts, run commands from `cmd.exe`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Deployment**
+- Build: `npm run build`
+- Start: `npm run start`
+- Deploy options: Vercel, or any Node-capable host. Ensure `MONGODB_URI` is set in the host environment.
